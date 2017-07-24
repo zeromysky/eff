@@ -1,0 +1,53 @@
+#coding=utf-8
+import pygame
+import random
+
+class Snow():  
+    x = 0               # 雪花的横坐标  
+    y = 0               # 雪花的纵坐标  
+    vx = 0              # 雪花的水平速度  
+    vy = 0              # 雪花的竖直速度  
+    gy = 3 #重力加速度
+    def __init__(self):  
+        self.x = random.randint(0,500)   # 初始化雪花横坐标  
+        self.y = random.randint(0,500)   #初始化雪花纵坐标  
+    def getsnowpos(self):  
+        return self.x,self.y         # 返回雪花坐标位置  
+
+
+
+
+def main():  
+    pygame.init()  
+    clock = pygame.time.Clock()  
+    area = [500,500]  
+    screen = pygame.display.set_mode(area)  
+    pygame.display.set_caption("PHY")  
+    swlist = []  
+    for i in range(0,50):      # 建立50个雪花的类  
+        swlist.append(Snow())  
+    while True:  
+        screen.fill(0)  
+        event = pygame.event.poll()  
+        if event.type == pygame.QUIT:  
+            pygame.quit()  
+            exit(0)  
+        if event.type == pygame.KEYDOWN:  
+            if event.key == pygame.K_n:  
+                pygame.quit()  
+                exit(0)  
+        clock.tick(30)  
+        for snow in swlist:   # 每个雪花位置的变换  
+            # if random.randint(0,1):  
+            snow.vx = random.randint(-3,3)  # 雪花的横向速度  
+            snow.vy = 9                     # 雪花的竖直速度  
+            snow.x += snow.vx               # 雪花的横轴移动位置  
+            snow.y += snow.vy + snow.gy             # 雪花的纵轴移动位置  
+            if snow.y > 500:  
+                snow.y = 0  
+            pygame.draw.circle(screen,[255,255,255],snow.getsnowpos(),1);  
+        pygame.display.update()  
+
+
+if __name__ == '__main__':
+    main()
